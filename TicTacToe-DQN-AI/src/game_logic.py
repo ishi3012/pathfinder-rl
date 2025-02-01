@@ -61,9 +61,9 @@ class TicTacToeAI:
             while True:
                 state = self.get_state()
                 action = self.choose_action()
-                self.make_move(*action, 'X')
+                self.make_move(*action, "X")
 
-                if self.check_winner(player):
+                if self.check_winner("X"):
                     reward = 1
                     self.update_q_table(state, action, reward, self.get_state())
                     break
@@ -123,7 +123,7 @@ def make_move(row, col):
     """Handle human move and AI response"""
     if st.session_state.board[row, col] == '-':
         st.session_state.board[row, col] = "O"  # Human plays 'O'
-        if st.session_state.ai.check_winner('O'):
+        if st.session_state.ai.check_winner("O"):
             st.session_state.winner = "🎉 You Win!"
             return
 
@@ -134,7 +134,7 @@ def make_move(row, col):
         # AI move
         ai_move = st.session_state.ai.choose_action()
         st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner('X'):
+        if st.session_state.ai.check_winner("X"):
             st.session_state.winner = "😢 AI Wins!"
             return
         if len(st.session_state.ai.get_valid_moves()) == 0:
@@ -143,7 +143,7 @@ def make_move(row, col):
         # AI move
         ai_move = st.session_state.ai.choose_action()
         st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner('O'):
+        if st.session_state.ai.check_winner("O"):
             st.session_state.winner = "AI Wins! 😢"
             return
 
