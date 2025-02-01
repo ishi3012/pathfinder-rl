@@ -46,12 +46,12 @@ class TicTacToeAI:
             pickle.dump(self.q_table, f)
 
     def set_difficulty(self, difficulty):
-        if difficulty == 'Easy':
+        if difficulty == "Easy":
             self.epsilon = 0.5  # More random moves
-        elif difficulty == 'Medium':
+        elif difficulty == "Medium":
             self.epsilon = 0.2  # Balanced exploration
-        elif difficulty == 'Hard':
-            self.epsilon = 0.1  # Mostly optimal moves
+        elif difficulty == "Hard":
+            self.epsilon = 0.1  # Mostly optimal moves  # Mostly optimal moves
 
     def load_q_table(self):
         if os.path.exists("q_table.pkl"):
@@ -69,8 +69,8 @@ st.markdown("""
             background-color: #f5f5f5; color: #333;
         }
         .stButton>button {
-            background-color: #e09f36;
-            color: #0a0a0a;
+            background-color: #ff9800;
+            color: white;
             font-size: 18px;
             border-radius: 10px;
             padding: 10px;
@@ -78,12 +78,12 @@ st.markdown("""
             transition: 0.3s;
         }
         .stButton>button:hover {
-            background-color: #068f23;
+            background-color: #e68900;
         }
         .win-message {
             font-size: 24px;
             font-weight: bold;
-            color: #05991d;
+            color: #FFD700;
             text-align: center;
         }
         .tic-tac-toe-grid button {
@@ -104,7 +104,7 @@ st.markdown("""
 
 st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
 
-difficulty_level = st.slider("Select AI Difficulty", min_value=0.1, max_value=0.5, value=0.2, step=0.1)
+difficulty_level = st.selectbox("Select AI Difficulty", ["Easy", "Medium", "Hard"], index=1)
 
 if "ai" not in st.session_state:
     st.session_state.ai = TicTacToeAI(difficulty=difficulty_level)
