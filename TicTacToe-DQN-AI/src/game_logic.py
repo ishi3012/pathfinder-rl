@@ -90,7 +90,9 @@ class TicTacToeAI:
                 self.q_table = pickle.load(f)
 
     def switch_player(self):
-        self.current_player = 'O' if self.current_player == 'X' else 'X'
+        if not hasattr(self, 'current_player'):
+            self.current_player = "X"
+        self.current_player = "O" if self.current_player == "X" else "X"
 
 
 # Streamlit UI
