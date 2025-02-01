@@ -134,7 +134,7 @@ def make_move(row, col):
         # AI move
         ai_move = st.session_state.ai.choose_action()
         st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner('X')
+        if st.session_state.ai.check_winner('X'):
             st.session_state.winner = "😢 AI Wins!"
             return
         if len(st.session_state.ai.get_valid_moves()) == 0:
@@ -143,7 +143,7 @@ def make_move(row, col):
         # AI move
         ai_move = st.session_state.ai.choose_action()
         st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner('O')
+        if st.session_state.ai.check_winner('O'):
             st.session_state.winner = "AI Wins! 😢"
             return
 
