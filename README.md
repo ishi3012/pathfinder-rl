@@ -10,7 +10,7 @@ This repository currently contains the following RL projects:
 | 📁 Project          | 🏆 Algorithm               | 🖥️ Implementation                    |
 |---------------------|--------------------------|--------------------------------------|
 | **CliffWalking-RL** | Q-Learning               | OpenAI Gym, NumPy                   |
-| **TicTacToe-DQN-AI** | Deep Q-Networks (DQN)    | PyTorch, Tkinter, Flask, Streamlit  |
+| **TicTacToe-DQN-AI** | Deep Q-Networks (DQN)    | PyTorch, Streamlit  |
 | **Snake-RL**        | Deep Q-Learning          | PyTorch, Pygame                     |
 
 More projects will be added over time! 🚀
@@ -140,8 +140,7 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 
 ## 📩 Contact & Contributions
 
-
-- 🔗 GitHub: [your-github](https://github.com/ishi3012)
-- 📧 Email: shilpa.musale02@gmail.com
+- 🔗 [GitHub :](https://github.com/ishi3012)
+- 📧 [Email :](shilpa.musale02@gmail.com)
 
 🚀 Feel free to fork, contribute, and improve these projects! 🏆
