@@ -162,10 +162,8 @@ st.button("🔄 Restart Game", on_click=reset_game)
 
 st.subheader("🎓 Train AI")
 if st.button("📈 Train AI (5,000 games)"):
-    # st.session_state.ai.train(episodes=5000)
-    # st.success("✅ AI training completed! Ready to play.")
-    
     st.session_state.ai.set_difficulty(difficulty_level)  # Ensure AI updates difficulty
     st.session_state.ai.train(episodes=5000)
-    st.success("✅ AI training completed! Ready to play.")
+    st.success(f"✅ AI trained on {['Easy', 'Medium', 'Hard'][difficulty_level - 1]} mode! Ready to play.")
+
 
