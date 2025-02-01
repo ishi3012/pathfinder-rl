@@ -102,15 +102,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
-
 # difficulty_level = st.selectbox("Select AI Difficulty", ["Easy", "Medium", "Hard"], index=1)
 st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
 
 difficulty_level = st.slider("Select AI Difficulty", min_value=1, max_value=3, value=2, step=1, format="%d")
 
-if "ai" not in st.session_state:
+# if "ai" not in st.session_state:
+#     st.session_state.ai = TicTacToeAI(difficulty=difficulty_level)
+
+if "ai" not in st.session_state or "difficulty" not in st.session_state or st.session_state.difficulty != difficulty_level:
+    st.session_state.difficulty = difficulty_level
     st.session_state.ai = TicTacToeAI(difficulty=difficulty_level)
+
+
 if "board" not in st.session_state:
     st.session_state.board = st.session_state.ai.reset_board()
     st.session_state.winner = None
