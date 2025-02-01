@@ -140,7 +140,7 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 
 ## 📩 Contact & Contributions
 
-- 🔗 [GitHub :](https://github.com/ishi3012)
+<!-- - 🔗 [GitHub :](https://github.com/ishi3012) -->
 - 📧 [Email :](shilpa.musale02@gmail.com)
 
 🚀 Feel free to fork, contribute, and improve these projects! 🏆
