@@ -1,114 +1,147 @@
-# Cliff Walking Policy Iteration
+# Reinforcement Learning Projects
 
-This repository contains the implementation of fixed policies and policy iteration for solving the Cliff Walking problem, as described in Sutton & Barto's *Reinforcement Learning: An Introduction* (2nd Edition, Chapter 4). The goal of this project is to compare the performance of fixed policies and derive an optimal policy using the Policy Iteration algorithm.
 
-## Repository Structure
+🚀 A collection of Reinforcement Learning (RL) projects implementing Q-Learning, Deep Q-Networks (DQN), and Policy Gradient methods in various environments. Each project showcases different RL concepts with implementations in Python, OpenAI Gym, TensorFlow/PyTorch, and web-based applications.
+
+## 📌 Projects in Repository
+
+This repository currently contains the following RL projects:
+
+| 📁 Project          | 🏆 Algorithm               | 🖥️ Implementation                    |
+|---------------------|--------------------------|--------------------------------------|
+| **CliffWalking-RL** | Q-Learning               | OpenAI Gym, NumPy                   |
+| **TicTacToe-DQN-AI** | Deep Q-Networks (DQN)    | PyTorch, Tkinter, Flask, Streamlit  |
+| **Snake-RL**        | Deep Q-Learning          | PyTorch, Pygame                     |
+
+More projects will be added over time! 🚀
+
+## 📂 Repository Structure
+```
+📂 RL-Projects-Portfolio (Root Repository) 
+│
+├── 📂 CliffWalking-RL (Cliff Walking using Q-Learning)
+│       ├── 📂 src (Python code)
+│       ├── 📂 logs (Training logs)
+│       ├── 📜 README.md (Project documentation)
+│
+├── 📂 TicTacToe-DQN-AI (Tic-Tac-Toe AI using Deep Q-Networks)
+│       ├── 📂 src (Source code: training, GUI, web app)
+│       ├── 📂 models (Saved trained models)
+│       ├── 📂 web (Web frontend for Flask & Streamlit)
+│       ├── 📂 logs (Training logs)
+│       ├── 📜 README.md (Project documentation)
+│
+├── 📂 Snake-RL (Snake game AI using Deep Q-Learning)
+│       ├── 📂 src (Python code for training & playing)
+│       ├── 📂 models (Saved trained models)
+│       ├── 📜 README.md (Project documentation)
+│
+├── 📜 README.md (This file - Main repository documentation)
+├── 📜 LICENSE (License for the repository)
+```
+
+## 📥 Installation & Setup
+
+### 🔹 Clone the Repository
+```
+git clone https://github.com/YOUR_USERNAME/RL-Projects-Portfolio.git
+cd RL-Projects-Portfolio
+```
+
+### 🔹 Install Dependencies
+```
+cd TicTacToe-DQN-AI
+pip install -r requirements.txt
 
 ```
-cliff-walking-policy-iteration/
-├── README.md                # This file
-├── requirements.txt         # Project dependencies
-├── main.py                  # Main script to run the experiments
-├── environment.py           # Environment setup and exploration
-├── utils.py                 # Helper functions (policy generation, run logic, etc.)
-├── results/                 # Folder to store outputs like histograms and results
-└── LICENSE                  # [MIT License](./LICENSE)
+
+## 🚀 Running the Projects
+
+### 1️⃣ CliffWalking-RL (Q-Learning)
+Description: An AI learns to walk across a dangerous cliff without falling using Q-learning.
+
+Run Training
+```
+cd CliffWalking-RL/src
+python train_q_learning.py
+```
+Run AI Agent
+```
+python play_q_learning.py
 ```
 
-## Assignment Overview
+### 2️⃣ Tic-Tac-Toe AI (DQN)
+Description: A Deep Q-Networks (DQN) based AI that learns to play Tic-Tac-Toe through reinforcement learning.
 
-### Part 1: Fixed Policies
+Run Training
+```
+cd TicTacToe-DQN-AI/src
+python train_dqn.py
+```
+Play Against AI (CLI Version)
+```
+python play_vs_ai.py
+```
+Run GUI Version
+```
+python gui_tictactoe.py
+```
 
-Your task for this part is to try a few other policies and compare their performances. Follow these steps:
+Run Web App (Flask)
+```
+cd TicTacToe-DQN-AI
+python app.py
+```
+Open http://127.0.0.1:5000/ in your browser.
 
-1. **Try 3 Fixed Policies**: Implement three different fixed policies, each with a unique random seed (except for seed=17).
+Run Web App (Streamlit)
+```
+streamlit run streamlit_app.py
+```
+### 3️⃣ Snake Game AI (DQN)
+Description: The Snake Game AI learns to play the classic Snake Game using Deep Q-Learning.
 
-   - Each policy should be evaluated under the same environment conditions.
+Run Training
+```
+cd Snake-RL/src
+python train_snake.py
+```
+Run AI Agent
+```
+python play_snake.py
+```
+Run GUI Version
+```
+python gui_snake.py
+```
 
-2. **Experimentation**: For each policy:
+## 📊 Visualizing AI Training
 
-   - Run the experiment 100 times (i.e., 100 runs).
-   - Store the results for analysis.
+Each project includes a training visualization script that plots the AI's learning progress.
 
-3. **Performance Metrics**:
+Example for Tic-Tac-Toe AI:
+```
+python visualize_training.py
+```
 
-   - Compute and report the mean and standard deviation (stdev) of the total number of steps over 100 runs.
-   - Select the BEST policy based on the total number of steps.
+## 🌍 Deployment Options
+- ✅ Flask & Render: Deploy Tic-Tac-Toe AI using Flask + Render.com
+- ✅ Streamlit Cloud: Deploy Tic-Tac-Toe AI on Streamlit Sharing
+- ✅ GitHub Actions: Automate training updates & deployment
 
-4. **Visualization**:
+## 🛠️ Customization
+- Modify hyperparameters (learning rate, gamma, epsilon) in training scripts.
+- Adjust reward functions to improve learning.
+- Customize UI (Tkinter, Flask, Streamlit, Pygame) to enhance user experience.
 
-   - Display the selected policy in a 2D array format.
-   - Generate a histogram showing:
-     - Number of steps taken.
-     - Ratio of near-falls.
-     - Rewards.
-
-   Below is an example histogram generated for the first policy (seed=17):
-
-   *(Insert example histogram here)*
-
----
-
-### Part 2: Optimal Policy by Policy Iteration
-
-Your task for this part is to implement the Policy Iteration algorithm to derive the optimal policy for the Cliff Walking environment. Follow these steps:
-
-1. **Algorithm Implementation**:
-
-   - Implement the Policy Iteration algorithm as described in Sutton & Barto (2nd Edition, Chapter 4.3, Page 80).
-   - Ensure the iteration terminates when the policy becomes stable (approximating the optimal policy).
-
-2. **Deliverables**:
-
-   - Provide the implementation in `main.py` and necessary helpers in `utils.py`.
-   - Output the derived optimal policy in a 2D array format.
-   - Generate visualizations (e.g., heatmaps or histograms) to demonstrate the effectiveness of the optimal policy.
-
----
-
-## Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/cliff-walking-policy-iteration.git
-   cd cliff-walking-policy-iteration
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
----
-
-## Usage
-
-1. To run experiments for fixed policies:
-
-   ```bash
-   python main.py --fixed_policy
-   ```
-
-2. To run the policy iteration algorithm:
-
-   ```bash
-   python main.py --optimal_policy
-   ```
-
----
-
-## Results
-
-Results will be stored in the `results/` directory, including:
-
-- Histograms for fixed policies.
-- 2D array representations of the best fixed policy and the optimal policy.
-
----
-
-## License
+## 📜 License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
 
+## 📩 Contact & Contributions
+
+
+- 🔗 GitHub: [your-github](https://github.com/ishi3012)
+- 📧 Email: shilpa.musale02@gmail.com
+
+🚀 Feel free to fork, contribute, and improve these projects! 🏆
