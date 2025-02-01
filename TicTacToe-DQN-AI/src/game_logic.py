@@ -38,15 +38,24 @@ class TicTacToeAI:
             return True
         return False
 
-    def check_winner(self):
+    # def check_winner(self):
+    #     for i in range(3):
+    #         if all(self.board[i, :] == self.board[i, 0]) and self.board[i, 0] != '-':
+    #             return True
+    #         if all(self.board[:, i] == self.board[0, i]) and self.board[0, i] != '-':
+    #             return True
+    #     if all(np.diag(self.board) == self.board[0, 0]) and self.board[0, 0] != '-':
+    #         return True
+    #     if all(np.diag(np.fliplr(self.board)) == self.board[0, 2]) and self.board[0, 2] != '-':
+    #         return True
+    #     return False
+
+    def check_winner(self, player):
+        """Correctly check if the given player has won."""
         for i in range(3):
-            if all(self.board[i, :] == self.board[i, 0]) and self.board[i, 0] != '-':
+            if all(self.board[i, :] == player) or all(self.board[:, i] == player):
                 return True
-            if all(self.board[:, i] == self.board[0, i]) and self.board[0, i] != '-':
-                return True
-        if all(np.diag(self.board) == self.board[0, 0]) and self.board[0, 0] != '-':
-            return True
-        if all(np.diag(np.fliplr(self.board)) == self.board[0, 2]) and self.board[0, 2] != '-':
+        if all(np.diag(self.board) == player) or all(np.diag(np.fliplr(self.board)) == player):
             return True
         return False
 
@@ -124,8 +133,19 @@ def make_move(row, col):
     """Handle human move and AI response"""
     if st.session_state.board[row, col] == '-':
         st.session_state.board[row, col] = "O"  # Human plays 'O'
-        if st.session_state.ai.check_winner():
-            st.session_state.winner = "You Win! 🎉"
+        if st.session_state.ai.check_winner('O'):
+            st.session_state.winner = "🎉 You Win!"
+            return
+
+        if len(st.session_state.ai.get_valid_moves()) == 0:
+            st.session_state.winner = "🤝 It's a Draw!"
+            return
+
+        # AI move
+        ai_move = st.session_state.ai.choose_action()
+        st.session_state.board[ai_move] = "X"
+        if st.session_state.ai.check_winner('X'):
+            st.session_state.winner = "😢 AI Wins!"
             return
         if len(st.session_state.ai.get_valid_moves()) == 0:
             st.session_state.winner = "It's a Draw! 🤝"
