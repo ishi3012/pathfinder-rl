@@ -104,7 +104,10 @@ st.markdown("""
 
 st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
 
-difficulty_level = st.selectbox("Select AI Difficulty", ["Easy", "Medium", "Hard"], index=1)
+# difficulty_level = st.selectbox("Select AI Difficulty", ["Easy", "Medium", "Hard"], index=1)
+st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
+
+difficulty_level = st.slider("Select AI Difficulty", min_value=1, max_value=3, value=2, step=1, format="%d")
 
 if "ai" not in st.session_state:
     st.session_state.ai = TicTacToeAI(difficulty=difficulty_level)
@@ -155,5 +158,10 @@ st.button("🔄 Restart Game", on_click=reset_game)
 
 st.subheader("🎓 Train AI")
 if st.button("📈 Train AI (5,000 games)"):
+    # st.session_state.ai.train(episodes=5000)
+    # st.success("✅ AI training completed! Ready to play.")
+    
+    st.session_state.ai.set_difficulty(difficulty_level)  # Ensure AI updates difficulty
     st.session_state.ai.train(episodes=5000)
     st.success("✅ AI training completed! Ready to play.")
+
