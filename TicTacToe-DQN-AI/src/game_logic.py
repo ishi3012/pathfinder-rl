@@ -7,12 +7,12 @@ import os
 st.set_page_config(page_title="Tic-Tac-Toe AI", page_icon="🤖", layout="centered")
 
 class TicTacToeAI:
-    def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.2, difficulty='Medium'):
+    def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.2):
         self.q_table = {}  # Q-table for training
         self.alpha = alpha  # Learning rate
         self.gamma = gamma  # Discount factor
         self.epsilon = epsilon
-        self.set_difficulty(difficulty)  # Exploration rate
+        
         self.load_q_table()  # Load model if available
 
     def reset_board(self):
@@ -45,13 +45,7 @@ class TicTacToeAI:
         with open("q_table.pkl", "wb") as f:
             pickle.dump(self.q_table, f)
 
-    def set_difficulty(self, difficulty):
-        if difficulty == "Easy":
-            self.epsilon = 0.5  # More random moves
-        elif difficulty == "Medium":
-            self.epsilon = 0.2  # Balanced exploration
-        elif difficulty == "Hard":
-            self.epsilon = 0.1  # Mostly optimal moves  # Mostly optimal moves
+      # Hard - Mostly optimal moves  # Mostly optimal moves  # Mostly optimal moves
 
     def load_q_table(self):
         if os.path.exists("q_table.pkl"):
@@ -102,19 +96,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# difficulty_level = st.selectbox("Select AI Difficulty", ["Easy", "Medium", "Hard"], index=1)
 st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
 
-difficulty_level = st.slider("Select AI Difficulty", min_value=1, max_value=3, value=2, step=1, format="%d")
-
-# if "ai" not in st.session_state:
-#     st.session_state.ai = TicTacToeAI(difficulty=difficulty_level)
-
-if "ai" not in st.session_state or "difficulty" not in st.session_state or st.session_state.difficulty != difficulty_level:
-    st.session_state.difficulty = difficulty_level
-    st.session_state.ai = TicTacToeAI(difficulty=difficulty_level)
 
 
+if "ai" not in st.session_state:
+    st.session_state.ai = TicTacToeAI()
 if "board" not in st.session_state:
     st.session_state.board = st.session_state.ai.reset_board()
     st.session_state.winner = None
@@ -162,8 +149,5 @@ st.button("🔄 Restart Game", on_click=reset_game)
 
 st.subheader("🎓 Train AI")
 if st.button("📈 Train AI (5,000 games)"):
-    st.session_state.ai.set_difficulty(difficulty_level)  # Ensure AI updates difficulty
     st.session_state.ai.train(episodes=5000)
-    st.success(f"✅ AI trained on {['Easy', 'Medium', 'Hard'][difficulty_level - 1]} mode! Ready to play.")
-
-
+    st.success("✅ AI training completed! Ready to play.")
