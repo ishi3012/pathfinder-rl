@@ -139,12 +139,32 @@ def make_move(row, col):
 
 # Display board
 st.session_state.winner = None
-for r in range(3):
-    cols = st.columns(3)
-    for c in range(3):
-        with cols[c]:
-            if st.button(st.session_state.board[r, c] if st.session_state.board[r, c] != '-' else " ", key=f"{r}{c}"):
-                make_move(r, c)
+# for r in range(3):
+#     cols = st.columns(3)
+#     for c in range(3):
+#         with cols[c]:
+#             if st.button(st.session_state.board[r, c] if st.session_state.board[r, c] != '-' else " ", key=f"{r}{c}"):
+#                 make_move(r, c)
+
+st.write("### 🏆 Tic-Tac-Toe Board")
+
+board_placeholder = st.empty()
+
+def render_board():
+    """Render the Tic-Tac-Toe board with correct alignment."""
+    with board_placeholder.container():
+        for r in range(3):
+            cols = st.columns(3)
+            for c in range(3):
+                with cols[c]:
+                    if st.session_state.board[r, c] == '-':
+                        if st.button(" ", key=f"{r}{c}"):
+                            make_move(r, c)
+                    else:
+                        st.button(st.session_state.board[r, c], disabled=True, key=f"{r}{c}_disabled")
+
+render_board()
+
 
 # Display result
 if st.session_state.winner:
