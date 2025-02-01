@@ -13,7 +13,6 @@ class TicTacToeAI:
         self.gamma = gamma  # Discount factor
         self.epsilon = epsilon  # Exploration rate
         self.load_q_table()  # Load model if available
-        self.current_player = 'X' 
 
     def reset_board(self):
         self.board.fill('-')
@@ -38,24 +37,15 @@ class TicTacToeAI:
             return True
         return False
 
-    # def check_winner(self):
-    #     for i in range(3):
-    #         if all(self.board[i, :] == self.board[i, 0]) and self.board[i, 0] != '-':
-    #             return True
-    #         if all(self.board[:, i] == self.board[0, i]) and self.board[0, i] != '-':
-    #             return True
-    #     if all(np.diag(self.board) == self.board[0, 0]) and self.board[0, 0] != '-':
-    #         return True
-    #     if all(np.diag(np.fliplr(self.board)) == self.board[0, 2]) and self.board[0, 2] != '-':
-    #         return True
-    #     return False
-
     def check_winner(self, player):
-        """Correctly check if the given player has won."""
         for i in range(3):
-            if all(self.board[i, :] == player) or all(self.board[:, i] == player):
+            if all(self.board[i, :] == self.board[i, 0]) and self.board[i, 0] != '-':
                 return True
-        if all(np.diag(self.board) == player) or all(np.diag(np.fliplr(self.board)) == player):
+            if all(self.board[:, i] == self.board[0, i]) and self.board[0, i] != '-':
+                return True
+        if all(np.diag(self.board) == self.board[0, 0]) and self.board[0, 0] != '-':
+            return True
+        if all(np.diag(np.fliplr(self.board)) == self.board[0, 2]) and self.board[0, 2] != '-':
             return True
         return False
 
@@ -73,7 +63,7 @@ class TicTacToeAI:
                 action = self.choose_action()
                 self.make_move(*action, 'X')
 
-                if self.check_winner():
+                if self.check_winner(player):
                     reward = 1
                     self.update_q_table(state, action, reward, self.get_state())
                     break
@@ -144,7 +134,7 @@ def make_move(row, col):
         # AI move
         ai_move = st.session_state.ai.choose_action()
         st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner('X'):
+        if st.session_state.ai.check_winner('X')
             st.session_state.winner = "😢 AI Wins!"
             return
         if len(st.session_state.ai.get_valid_moves()) == 0:
@@ -153,38 +143,18 @@ def make_move(row, col):
         # AI move
         ai_move = st.session_state.ai.choose_action()
         st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner():
+        if st.session_state.ai.check_winner('O')
             st.session_state.winner = "AI Wins! 😢"
             return
 
 # Display board
 st.session_state.winner = None
-# for r in range(3):
-#     cols = st.columns(3)
-#     for c in range(3):
-#         with cols[c]:
-#             if st.button(st.session_state.board[r, c] if st.session_state.board[r, c] != '-' else " ", key=f"{r}{c}"):
-#                 make_move(r, c)
-
-st.write("### 🏆 Tic-Tac-Toe Board")
-
-board_placeholder = st.empty()
-
-def render_board():
-    """Render the Tic-Tac-Toe board with correct alignment."""
-    with board_placeholder.container():
-        for r in range(3):
-            cols = st.columns(3)
-            for c in range(3):
-                with cols[c]:
-                    if st.session_state.board[r, c] == '-':
-                        if st.button(" ", key=f"{r}{c}"):
-                            make_move(r, c)
-                    else:
-                        st.button(st.session_state.board[r, c], disabled=True, key=f"{r}{c}_disabled")
-
-render_board()
-
+for r in range(3):
+    cols = st.columns(3)
+    for c in range(3):
+        with cols[c]:
+            if st.button(st.session_state.board[r, c] if st.session_state.board[r, c] != '-' else " ", key=f"{r}{c}"):
+                make_move(r, c)
 
 # Display result
 if st.session_state.winner:
