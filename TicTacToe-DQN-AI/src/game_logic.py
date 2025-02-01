@@ -51,12 +51,12 @@ class TicTacToeAI:
 st.markdown("""
     <style>
         body {
-            background-color: #1a1a1a;
+            background-color: #2a2a2a;
             color: #e0e0e0;
             font-family: 'Arial', sans-serif;
         }
         .stApp {
-            background-color: #1a1a1a;
+            background-color: #2a2a2a;
         }
         .stButton>button {
             background-color: #ff9800;
