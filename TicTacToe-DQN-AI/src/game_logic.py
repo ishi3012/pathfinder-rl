@@ -47,6 +47,32 @@ class TicTacToeAI:
         if os.path.exists("q_table.pkl"):
             with open("q_table.pkl", "rb") as f:
                 self.q_table = pickle.load(f)
+    def train(self, episodes=5000):
+        for _ in range(episodes):
+            self.reset_board()
+            game_history = []
+            while True:
+                state = self.get_state()
+                action = self.choose_action()
+                self.make_move(*action, 'X')
+
+                if self.check_winner():
+                    reward = 1
+                    self.update_q_table(state, action, reward, self.get_state())
+                    break
+                elif len(self.get_valid_moves()) == 0:
+                    reward = 0
+                    self.update_q_table(state, action, reward, self.get_state())
+                    break
+                else:
+                    game_history.append((state, action))
+                    self.switch_player()
+
+            for state, action in game_history:
+                self.update_q_table(state, action, -1, self.get_state())
+
+        self.save_q_table()
+
 
 st.markdown("""
     <style>
