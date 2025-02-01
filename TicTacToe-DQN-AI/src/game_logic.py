@@ -4,6 +4,8 @@ import pickle
 import random
 import os
 
+st.set_page_config(page_title="Tic-Tac-Toe AI", page_icon="🤖", layout="centered")
+
 class TicTacToeAI:
     def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.2):
         self.q_table = {}  # Q-table for training
@@ -37,35 +39,6 @@ class TicTacToeAI:
             return True
         return False
 
-    def update_q_table(self, state, action, reward, next_state):
-        old_value = self.q_table.get((state, action), 0)
-        future_q = max([self.q_table.get((next_state, move), 0) for move in self.get_valid_moves(np.array(list(next_state)).reshape(3, 3))], default=0)
-        self.q_table[(state, action)] = old_value + self.alpha * (reward + self.gamma * future_q - old_value)
-
-    def train(self, episodes=5000):
-        for _ in range(episodes):
-            board = self.reset_board()
-            game_history = []
-            while True:
-                state = self.get_state(board)
-                action = self.choose_action(board)
-                board[action] = 'X'
-                
-                if self.check_winner(board, 'X'):
-                    reward = 1
-                    self.update_q_table(state, action, reward, self.get_state(board))
-                    break
-                elif len(self.get_valid_moves(board)) == 0:
-                    reward = 0
-                    self.update_q_table(state, action, reward, self.get_state(board))
-                    break
-                else:
-                    game_history.append((state, action))
-                    
-            for state, action in game_history:
-                self.update_q_table(state, action, -1, self.get_state(board))
-        self.save_q_table()
-
     def save_q_table(self):
         with open("q_table.pkl", "wb") as f:
             pickle.dump(self.q_table, f)
@@ -74,6 +47,28 @@ class TicTacToeAI:
         if os.path.exists("q_table.pkl"):
             with open("q_table.pkl", "rb") as f:
                 self.q_table = pickle.load(f)
+
+st.markdown("""
+    <style>
+        .stButton>button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
+        }
+        .stButton>button:hover {
+            background-color: #45a049;
+        }
+        .win-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFD700;
+            text-align: center;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
 
@@ -111,18 +106,19 @@ for r in range(3):
     cols = st.columns(3)
     for c in range(3):
         with cols[c]:
+            button_style = "color: black; font-size: 24px; height: 50px; width: 50px;"
             if st.session_state.board[r, c] == '-':
-                if st.button(" ", key=f"{r}{c}"):
+                if st.button(" ", key=f"{r}{c}", help="Click to play", use_container_width=True):
                     make_move(r, c)
             else:
-                st.button(st.session_state.board[r, c], disabled=True, key=f"{r}{c}_disabled")
+                st.button(st.session_state.board[r, c], disabled=True, key=f"{r}{c}_disabled", use_container_width=True)
 
 if "winner" in st.session_state and st.session_state.winner:
-    st.subheader(st.session_state.winner)
+    st.markdown(f'<p class="win-message">{st.session_state.winner}</p>', unsafe_allow_html=True)
 
-st.button("Restart Game", on_click=reset_game)
+st.button("🔄 Restart Game", on_click=reset_game)
 
 st.subheader("🎓 Train AI")
-if st.button("Train AI (5,000 games)"):
+if st.button("📈 Train AI (5,000 games)"):
     st.session_state.ai.train(episodes=5000)
-    st.success("AI training completed! Ready to play.")
+    st.success("✅ AI training completed! Ready to play.")
