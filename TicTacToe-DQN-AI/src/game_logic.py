@@ -50,8 +50,15 @@ class TicTacToeAI:
 
 st.markdown("""
     <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .stApp {
+            background-color: #121212;
+        }
         .stButton>button {
-            background-color: #4CAF50;
+            background-color: #1e88e5;
             color: white;
             font-size: 18px;
             border-radius: 10px;
@@ -59,7 +66,7 @@ st.markdown("""
             width: 100%;
         }
         .stButton>button:hover {
-            background-color: #45a049;
+            background-color: #1565c0;
         }
         .win-message {
             font-size: 24px;
@@ -106,7 +113,7 @@ for r in range(3):
     cols = st.columns(3)
     for c in range(3):
         with cols[c]:
-            button_style = "color: black; font-size: 24px; height: 50px; width: 50px;"
+            button_style = "color: white; font-size: 24px; height: 50px; width: 50px; background-color: #333; border: 1px solid white;"
             if st.session_state.board[r, c] == '-':
                 if st.button(" ", key=f"{r}{c}", help="Click to play", use_container_width=True):
                     make_move(r, c)
