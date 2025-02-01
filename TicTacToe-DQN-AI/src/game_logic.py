@@ -13,6 +13,7 @@ class TicTacToeAI:
         self.gamma = gamma  # Discount factor
         self.epsilon = epsilon  # Exploration rate
         self.load_q_table()  # Load model if available
+        self.current_player = 'X' 
 
     def reset_board(self):
         self.board.fill('-')
