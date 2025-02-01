@@ -120,7 +120,7 @@ st.markdown("""
         .win-message {
             font-size: 24px;
             font-weight: bold;
-            color: #FFD700;
+            color: #120af5;
             text-align: center;
         }
         .tic-tac-toe-grid button {
