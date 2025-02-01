@@ -4,7 +4,6 @@ import pickle
 import random
 import os
 
-# Define Tic-Tac-Toe class with training and AI logic
 class TicTacToeAI:
     def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.2):
         self.board = np.full((3, 3), '-', dtype=str)
@@ -12,10 +11,12 @@ class TicTacToeAI:
         self.alpha = alpha  # Learning rate
         self.gamma = gamma  # Discount factor
         self.epsilon = epsilon  # Exploration rate
+        self.current_player = 'X'  # AI always starts with 'X'
         self.load_q_table()  # Load model if available
 
     def reset_board(self):
         self.board.fill('-')
+        self.current_player = 'X'
 
     def get_state(self):
         return ''.join(self.board.flatten())
@@ -39,13 +40,9 @@ class TicTacToeAI:
 
     def check_winner(self, player):
         for i in range(3):
-            if all(self.board[i, :] == self.board[i, 0]) and self.board[i, 0] != '-':
+            if all(self.board[i, :] == player) or all(self.board[:, i] == player):
                 return True
-            if all(self.board[:, i] == self.board[0, i]) and self.board[0, i] != '-':
-                return True
-        if all(np.diag(self.board) == self.board[0, 0]) and self.board[0, 0] != '-':
-            return True
-        if all(np.diag(np.fliplr(self.board)) == self.board[0, 2]) and self.board[0, 2] != '-':
+        if all(np.diag(self.board) == player) or all(np.diag(np.fliplr(self.board)) == player):
             return True
         return False
 
@@ -61,9 +58,9 @@ class TicTacToeAI:
             while True:
                 state = self.get_state()
                 action = self.choose_action()
-                self.make_move(*action, "X")
+                self.make_move(*action, 'X')
 
-                if self.check_winner("X"):
+                if self.check_winner('X'):
                     reward = 1
                     self.update_q_table(state, action, reward, self.get_state())
                     break
@@ -73,8 +70,8 @@ class TicTacToeAI:
                     break
                 else:
                     game_history.append((state, action))
-                    self.switch_player()
-
+                    self.current_player = 'O'
+            
             for state, action in game_history:
                 self.update_q_table(state, action, -1, self.get_state())
 
@@ -89,43 +86,23 @@ class TicTacToeAI:
             with open("q_table.pkl", "rb") as f:
                 self.q_table = pickle.load(f)
 
-    def switch_player(self):
-        if not hasattr(self, 'current_player'):
-            self.current_player = "X"
-        self.current_player = "O" if self.current_player == "X" else "X"
-
-
-# Streamlit UI
 st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
 
-# Initialize AI
 if "ai" not in st.session_state:
     st.session_state.ai = TicTacToeAI()
-
-# Training Section
-st.header("🎓 Train AI")
-if st.button("Train AI (5,000 games)"):
-    st.session_state.ai.train(episodes=5000)
-    st.success("AI training completed! Ready to play.")
-
-# Game Section
-st.header("🎮 Play Against AI")
-
-# Initialize game state
 if "board" not in st.session_state:
     st.session_state.board = np.full((3, 3), '-', dtype=str)
     st.session_state.current_player = "O"
 
 def reset_game():
-    """Reset the board"""
     st.session_state.board = np.full((3, 3), '-', dtype=str)
     st.session_state.current_player = "O"
+    st.session_state.winner = None
 
 def make_move(row, col):
-    """Handle human move and AI response"""
-    if st.session_state.board[row, col] == '-':
+    if st.session_state.board[row, col] == '-' and not st.session_state.winner:
         st.session_state.board[row, col] = "O"  # Human plays 'O'
-        if st.session_state.ai.check_winner("O"):
+        if st.session_state.ai.check_winner('O'):
             st.session_state.winner = "🎉 You Win!"
             return
 
@@ -136,30 +113,28 @@ def make_move(row, col):
         # AI move
         ai_move = st.session_state.ai.choose_action()
         st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner("X"):
+        if st.session_state.ai.check_winner('X'):
             st.session_state.winner = "😢 AI Wins!"
             return
-        if len(st.session_state.ai.get_valid_moves()) == 0:
-            st.session_state.winner = "It's a Draw! 🤝"
-            return
-        # AI move
-        ai_move = st.session_state.ai.choose_action()
-        st.session_state.board[ai_move] = "X"
-        if st.session_state.ai.check_winner("O"):
-            st.session_state.winner = "AI Wins! 😢"
-            return
 
-# Display board
-st.session_state.winner = None
+st.subheader("🎮 Play Against AI")
+
 for r in range(3):
     cols = st.columns(3)
     for c in range(3):
         with cols[c]:
-            if st.button(st.session_state.board[r, c] if st.session_state.board[r, c] != '-' else " ", key=f"{r}{c}"):
-                make_move(r, c)
+            if st.session_state.board[r, c] == '-':
+                if st.button(" ", key=f"{r}{c}"):
+                    make_move(r, c)
+            else:
+                st.button(st.session_state.board[r, c], disabled=True, key=f"{r}{c}_disabled")
 
-# Display result
-if st.session_state.winner:
+if "winner" in st.session_state and st.session_state.winner:
     st.subheader(st.session_state.winner)
 
 st.button("Restart Game", on_click=reset_game)
+
+st.subheader("🎓 Train AI")
+if st.button("Train AI (5,000 games)"):
+    st.session_state.ai.train(episodes=5000)
+    st.success("AI training completed! Ready to play.")
