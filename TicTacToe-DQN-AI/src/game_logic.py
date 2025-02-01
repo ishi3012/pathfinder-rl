@@ -11,8 +11,7 @@ class TicTacToeAI:
         self.q_table = {}  # Q-table for training
         self.alpha = alpha  # Learning rate
         self.gamma = gamma  # Discount factor
-        self.epsilon = epsilon
-        
+        self.epsilon = epsilon  # Exploration rate
         self.load_q_table()  # Load model if available
 
     def reset_board(self):
@@ -25,9 +24,8 @@ class TicTacToeAI:
         return [(r, c) for r in range(3) for c in range(3) if board[r, c] == '-']
 
     def choose_action(self, board):
-        # Adjust AI's decision-making based on difficulty level
         state = self.get_state(board)
-        if random.uniform(0, 1) < self.epsilon:  # Difficulty-adjusted exploration  # Exploration
+        if random.uniform(0, 1) < self.epsilon:  # Exploration
             return random.choice(self.get_valid_moves(board))
         else:  # Exploitation
             q_values = {move: self.q_table.get((state, move), 0) for move in self.get_valid_moves(board)}
@@ -44,8 +42,6 @@ class TicTacToeAI:
     def save_q_table(self):
         with open("q_table.pkl", "wb") as f:
             pickle.dump(self.q_table, f)
-
-      # Hard - Mostly optimal moves  # Mostly optimal moves  # Mostly optimal moves
 
     def load_q_table(self):
         if os.path.exists("q_table.pkl"):
@@ -97,8 +93,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("🤖 Tic-Tac-Toe AI Trainer & Game")
-
-
 
 if "ai" not in st.session_state:
     st.session_state.ai = TicTacToeAI()
