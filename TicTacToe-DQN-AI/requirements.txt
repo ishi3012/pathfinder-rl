@@ -1,0 +1,16 @@
+# Basic requirements for a command-line Tic-Tac-Toe game
+python-dotenv==1.0.0  
+numpy==1.26.3  
+
+# If using Flask for a web-based Tic-Tac-Toe
+Flask==3.0.0  
+
+# If using Pygame for a graphical interface
+pygame==2.5.2  
+
+
+tensorflow==2.15.0  
+scikit-learn==1.4.0  
+
+# For testing
+pytest==8.0.0  
