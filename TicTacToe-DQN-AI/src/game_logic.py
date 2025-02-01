@@ -51,28 +51,43 @@ class TicTacToeAI:
 st.markdown("""
     <style>
         body {
-            background-color: #121212;
-            color: #ffffff;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
         }
         .stApp {
-            background-color: #121212;
+            background-color: #1a1a1a;
         }
         .stButton>button {
-            background-color: #1e88e5;
+            background-color: #ff9800;
             color: white;
             font-size: 18px;
             border-radius: 10px;
             padding: 10px;
             width: 100%;
+            transition: 0.3s;
         }
         .stButton>button:hover {
-            background-color: #1565c0;
+            background-color: #e68900;
         }
         .win-message {
             font-size: 24px;
             font-weight: bold;
             color: #FFD700;
             text-align: center;
+        }
+        .tic-tac-toe-grid button {
+            font-size: 24px;
+            height: 70px;
+            width: 70px;
+            background-color: #333;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .tic-tac-toe-grid button:hover {
+            background-color: #444;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -109,16 +124,17 @@ def make_move(row, col):
 
 st.subheader("🎮 Play Against AI")
 
-for r in range(3):
-    cols = st.columns(3)
-    for c in range(3):
-        with cols[c]:
-            button_style = "color: white; font-size: 24px; height: 50px; width: 50px; background-color: #333; border: 1px solid white;"
-            if st.session_state.board[r, c] == '-':
-                if st.button(" ", key=f"{r}{c}", help="Click to play", use_container_width=True):
-                    make_move(r, c)
-            else:
-                st.button(st.session_state.board[r, c], disabled=True, key=f"{r}{c}_disabled", use_container_width=True)
+grid_container = st.container()
+with grid_container:
+    for r in range(3):
+        cols = st.columns(3)
+        for c in range(3):
+            with cols[c]:
+                if st.session_state.board[r, c] == '-':
+                    if st.button(" ", key=f"{r}{c}", help="Click to play", use_container_width=True, args=(r, c)):
+                        make_move(r, c)
+                else:
+                    st.button(st.session_state.board[r, c], disabled=True, key=f"{r}{c}_disabled", use_container_width=True)
 
 if "winner" in st.session_state and st.session_state.winner:
     st.markdown(f'<p class="win-message">{st.session_state.winner}</p>', unsafe_allow_html=True)
